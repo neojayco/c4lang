@@ -5,7 +5,7 @@
 class tokenizer {
 public:
 
-    constexpr tokenizer(const std::string_view& src_text) noexcept : text(src_text), i()
+    inline tokenizer(const source_content& src_text) noexcept : source(src_text), i()
     {}
 
     inline bool operator()(std::vector<token_t>& tokens) noexcept {
@@ -18,24 +18,45 @@ private:
     bool _process_text(std::vector<token_t>& tokens) noexcept;
 
     inline auto current() const noexcept {
-        return text.at(i);
+        return current_line().at(i);
     }
 
-    inline auto advance() const noexcept {
-        return text.at(i++);
+    inline auto advance() noexcept {
+        return current_line()[i++];
     }
 
     inline auto peek(size_t offset) const noexcept {
-        if (offset + i >= text.size()) {
-            return std::optional<char>();
+        if (offset + i >= current_line().size()) {
+            return std::optional<int>();
         }
-        return std::optional<char>(text.at(i + offset));
+        return std::optional<int>(current_line().at(i + offset));
     }
 
-    inline auto is_buffer_empty() const noexcept {
-        return i >= text.size();
+    inline bool is_buffer_empty() const noexcept {
+        return i >= current_line().size();
+    }
+    bool is_valid_name_start() const noexcept;
+
+    friend bool __issafe(const tokenizer* p);
+
+    inline string32& current_line() noexcept {
+        return source.lines[line_num];
     }
 
-    std::string_view text = {};
+    inline const string32& current_line() const noexcept {
+        return source.lines[line_num];
+    }
+
+    inline void advance_line() noexcept {
+        line_num++;
+        i = 0;
+    }
+
+    inline bool is_safe_line() const noexcept {
+        return source.lines.size() > line_num;
+    }
+
+    source_content source = {};
+    size_t line_num = {};
     size_t i = {};
 };
