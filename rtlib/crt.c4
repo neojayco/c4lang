@@ -1,9 +1,118 @@
 
-// this is 'space'?
-crtc4 {
+// this is singleline comment
+/*
+    this is multiline comment
+*/
 
-    const __invoke_main(argc i32, argv ptr<cstr>) {
+// 'name' is *a basic block* of c4 language.
+// name can't start with a digit or a punctuation character.
+// names can be just a label and work like namespace in c++ 
+// (or more like a module names in i.e. java)
+example_name = {
+    // code goes here...
+}
+_another_example_name = {}
 
+// name can be a variable, but all *variables* names *MUST* provide a
+// type of holding data, or a tuple of possible return types:
+example_variable_single_type_name i32
+example_variable_multitype_name <i32, f32>
+
+// note: multitype variable names can be initialized by default value but
+//       that's wrong usage of them because of their nature. 
+//       they'll be initialized later at runtime (or compiler
+//       will choose single type depends on name usage in code) and deduce it's type.
+// WRONG: name_multitype <i32, i1> = true - this will throw a warning about force
+//                                           choose of i1 type.
+
+// a name can have a modificator 'const'
+// a variable name can be marked as const, but then it *MUST* be initialized:
+const example_const_variable_initialized_name i32 = 12
+
+// variable name can be initialized with a valid expression (any name),
+// otherwise will be zeroed (or default initializator will be called)
+example_variable_initialized_name i32 = 11
+
+// name can become a function prototype if there an argument list (even empty one)
+// is provided after name definition, e.g:
+example_function()
+
+// note: this was an example of function with no return value
+
+// function prototype can provide a return type after an argument list, and this 
+// means that function *MUST* return some value:
+example_retval_function() i32
+
+// function prototype can have an assigned body:
+example_retval_function() i32 = {
+    // code goes here...
+    return 12
+}
+
+// c4 has a rich set of builtin explicit types: (note: i/u -> signed/unsigned, f - float ieee754)
+/*
+    integral types:
+    
+    i1          => a byte (a bit) that can be used as boolean type (recommended usage)
+    i8, u8      => a byte (8 bits) that usually used as character value (recommended usage)
+    i16, u16    => a word (16 bits, 2 bytes) type
+    i32, u32    => a double word (32 bits, 4 bytes) type
+    i64, u64    => a quad word (64 bits, 8 bytes) type
+    i128, u128  => an octa word (128 bits, 16 bytes) SIMD type
+    i256, u256  => an hexadeca word (256 bits, 32 bytes) SIMD type
+
+    floating point types:
+    f32         => a 32 bits, 4 bytes ieee754 type
+    f64         => a 64 bits, 8 bytes ieee754 type
+    f128        => a 128 bits, 16 bytes ieee754 SIMD type
+    f256        => a 256 bits, 32 bytes ieee754 SIMD type
+
+    a bit more complex types:
+    ptr<T>      => an 8 bytes pointer of specific type T (optional)
+    cstr        => a pointer of type i8, null-terminated (or not?)
+
+*/
+
+// c4 also capable of any custom type you can create (object, or table, or class, etc..)
+// you can even redefine builtin types with a new name:
+float = f32
+
+// now a name 'float' interprets as an alias for 'f32' typename.
+
+// every name in c4 can handle properties(variables/constants), and functions.
+example_name_3 = {
+    // and it should have a valid initializator:
+    example_name_3() = {
+        // this is an example of default initializator
+        // code goes here...
+    }
+    example_name_3(_arg1 i32) = {
+        // this is another version of initializator, but this one accepts i32 value for initialization.
+        // code goes here...
+    }
+}
+
+// accessibility of name's functions and properties can be changed by 'const' name modifier:
+example_name_2 = {
+
+    const available_function() i32 = {
+        // code goes here...
+        return 11
     }
 
+    non_available_function() i32 = {
+        // code goes here...
+        return 1
+    }
+
+    const constant_pi float = 3.1415926
+}
+
+// and usage of these name's members
+example_function() = {
+    // example usage of default initializator for example_name_2 object
+    const en2 example_name_2 {}
+    test_for_en2 f32 = en2.constant_pi    // OK
+    test_for_en2_2 i32 = en2.available_function() // OK, get a return value of a function
+    test_for_en2_3 i32 = en2.non_available_function() // ERR, can't access a non-constant member of a name 'en2'
 }
