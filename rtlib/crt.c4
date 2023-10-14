@@ -113,6 +113,7 @@ example_function() = {
     // example usage of default initializator for example_name_2 object
     const en2 example_name_2 {}
     test_for_en2 f32 = en2.constant_pi    // OK
-    test_for_en2_2 i32 = en2.available_function() // OK, get a return value of a function
-    test_for_en2_3 i32 = en2.non_available_function() // ERR, can't access a non-constant member of a name 'en2'
+    // 'call' keyword is used here to get result of these functions, instead of their addresses.
+    test_for_en2_2 i32 = call en2.available_function() // OK, get a return value of a function
+    test_for_en2_3 i32 = call en2.non_available_function() // ERR, can't access a non-constant member of a name 'en2'
 }
