@@ -1,18 +1,13 @@
 #pragma once
+#include "../common.h"
+#include "../symbol_location.h"
 
-#include <string>
-#include <string_view>
-#include <vector>
-#include <unordered_map>
-#include <functional>
-#include <optional>
-#include <iostream>
+namespace lex {
 
-using string32 = std::wstring;
-using string_view32 = std::wstring_view;
+    struct source_content {
+        std::vector<string32> lines;
+    };
 
-struct source_content {
-    std::vector<string32> lines;
-};
+    bool load_file32(source_content& src, const char* filename);
 
-bool load_file32(source_content& src, const char* filename);
+}

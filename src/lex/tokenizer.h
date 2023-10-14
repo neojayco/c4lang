@@ -2,61 +2,67 @@
 
 #include "token.h"
 
-class tokenizer {
-public:
+namespace lex {
 
-    inline tokenizer(const source_content& src_text) noexcept : source(src_text), i()
-    {}
+    class tokenizer {
+    public:
 
-    inline bool operator()(std::vector<token_t>& tokens) noexcept {
-        return tokenize_main(tokens);
-    }
+        inline tokenizer(const source_content& src_text) noexcept : source(src_text), i()
+        {}
 
-private:
-    bool tokenize_main(std::vector<token_t>& tokens) noexcept;
-
-    bool _process_text(std::vector<token_t>& tokens) noexcept;
-
-    inline auto current() const noexcept {
-        return current_line().at(i);
-    }
-
-    inline auto advance() noexcept {
-        return current_line()[i++];
-    }
-
-    inline auto peek(size_t offset) const noexcept {
-        if (offset + i >= current_line().size()) {
-            return std::optional<int>();
+        inline bool operator()(std::vector<token_t>& tokens) noexcept {
+            return tokenize_main(tokens);
         }
-        return std::optional<int>(current_line().at(i + offset));
-    }
 
-    inline bool is_buffer_empty() const noexcept {
-        return i >= current_line().size();
-    }
-    bool is_valid_name_start() const noexcept;
+    private:
+        bool tokenize_main(std::vector<token_t>& tokens) noexcept;
 
-    friend bool __issafe(const tokenizer* p);
+        bool _process_text(std::vector<token_t>& tokens) noexcept;
 
-    inline string32& current_line() noexcept {
-        return source.lines[line_num];
-    }
+        inline auto current() const noexcept {
+            return current_line().at(i);
+        }
 
-    inline const string32& current_line() const noexcept {
-        return source.lines[line_num];
-    }
+        inline auto advance() noexcept {
+            return current_line()[i++];
+        }
 
-    inline void advance_line() noexcept {
-        line_num++;
-        i = 0;
-    }
+        inline auto peek(size_t offset) const noexcept {
+            if (offset + i >= current_line().size()) {
+                return std::optional<int>();
+            }
+            return std::optional<int>(current_line().at(i + offset));
+        }
 
-    inline bool is_safe_line() const noexcept {
-        return source.lines.size() > line_num;
-    }
+        inline bool is_buffer_empty() const noexcept {
+            return i >= current_line().size();
+        }
+        bool is_valid_name_start() const noexcept;
 
-    source_content source = {};
-    size_t line_num = {};
-    size_t i = {};
-};
+        friend bool __issafe(const tokenizer* p);
+
+        inline string32& current_line() noexcept {
+            return source.lines[line_num];
+        }
+
+        inline const string32& current_line() const noexcept {
+            return source.lines[line_num];
+        }
+
+        inline void advance_line() noexcept {
+            line_num++;
+            i = 0;
+        }
+
+        inline bool is_safe_line() const noexcept {
+            return source.lines.size() > line_num;
+        }
+
+        symbol_location getLocation(const size_t start) const noexcept;
+
+        source_content source = {};
+        size_t line_num = {};
+        size_t i = {};
+    };
+
+}
