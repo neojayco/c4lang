@@ -12,7 +12,7 @@ string32 symbol_location::getFormatText(const size_t symbol_len) const noexcept 
     for (size_t i = 0; i < remainingZeros; ++i) {
         ss << L' ';
     }
-    ss << std::to_wstring(line.index) << L" | ";
+    ss << std::to_wstring(line.index + 1) << L" | ";
     string32 offtext(MAX_LINE_NUM_DIGITS + 3 + offset, ' ');
     string32 marktext(symbol_len, L'^');
     ss << line.text << L'\n' << offtext << marktext;
