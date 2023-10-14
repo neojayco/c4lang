@@ -37,8 +37,8 @@ namespace lex {
         return create_token(T_SLASH, location);
     }
 
-    inline token_t create_single_comment(const symbol_location& location) noexcept {
-        return create_token(T_SLASH, location);
+    inline token_t create_single_comment(const string32& text, const symbol_location& location) noexcept {
+        return create_token(T_SINGLECOMMENT, text, location);
     }
 
 }

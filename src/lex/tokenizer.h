@@ -7,7 +7,7 @@ namespace lex {
     class tokenizer {
     public:
 
-        inline tokenizer(const source_content& src_text) noexcept : source(src_text), i()
+        inline tokenizer(const source_content& src_text) noexcept : source(src_text), i(0), line_idx(1)
         {}
 
         inline bool operator()(std::vector<token_t>& tokens) noexcept {
@@ -18,6 +18,7 @@ namespace lex {
         bool tokenize_main(std::vector<token_t>& tokens) noexcept;
 
         bool _process_text(std::vector<token_t>& tokens) noexcept;
+        bool _process_singlinecomment(std::vector<token_t>& tokens) noexcept;
 
         inline auto current() const noexcept {
             return current_line().at(i);
@@ -42,26 +43,35 @@ namespace lex {
         friend bool __issafe(const tokenizer* p);
 
         inline string32& current_line() noexcept {
-            return source.lines[line_num];
+            return source.lines[line_idx];
         }
 
         inline const string32& current_line() const noexcept {
-            return source.lines[line_num];
+            return source.lines[line_idx];
         }
 
         inline void advance_line() noexcept {
-            line_num++;
+            line_idx++;
             i = 0;
         }
 
         inline bool is_safe_line() const noexcept {
-            return source.lines.size() > line_num;
+            return source.lines.size() > line_idx;
+        }
+
+        inline bool is(const string_view32& sv) const noexcept {
+            for (auto i = 0ull; (!is_buffer_empty()) && i < sv.size(); ++i) {
+                if (peek(i) != sv[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         symbol_location getLocation(const size_t start) const noexcept;
 
         source_content source = {};
-        size_t line_num = {};
+        size_t line_idx = {};
         size_t i = {};
     };
 

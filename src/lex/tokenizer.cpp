@@ -31,7 +31,7 @@ namespace lex {
     }
 
     symbol_location tokenizer::getLocation(const size_t start) const noexcept {
-        return { current_line(), line_num, start };
+        return { current_line(), line_idx, start };
     }
 
     bool tokenizer::is_valid_name_start() const noexcept {
@@ -50,7 +50,15 @@ namespace lex {
                 }
                 // go process characters
                 if (issafe() && is_valid_name_start()) {
-                    _process_text(tokens);
+                    if (!_process_text(tokens)) {
+                        return false;
+                    }
+                }
+                else if (issafe() && is(L"//")) {
+                    // process comments
+                    if (!_process_singlinecomment(tokens)) {
+                        return false;
+                    }
                 }
                 else {
                     std::wcerr << "error: unrecognized character at line: \n" << getLocation(i).getFormatText(1);
@@ -65,16 +73,31 @@ namespace lex {
     }
 
     bool tokenizer::_process_text(std::vector<token_t>& tokens) noexcept {
-        auto start = i;
+        const auto start = i;
 
         while (issafe() && (is_valid_name_start() || isdigit(current()))) {
             advance();
         }
 
-        auto len = i - start;
+        const auto len = i - start;
         const auto _text = current_line().substr(start, len);
         tokens.push_back(create_identifier({_text.data(), _text.size()}, getLocation(start)));
+
         return true;
     }
 
+    bool tokenizer::_process_singlinecomment(std::vector<token_t> &tokens) noexcept {
+
+        const auto start = i;
+
+        while (issafe()) {
+            advance();
+        }
+
+        const auto len = i - start;
+        const auto _commented = current_line().substr(start, len);
+        tokens.push_back(create_single_comment(_commented, getLocation(start)));
+
+        return true;
+    }
 }
