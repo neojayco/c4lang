@@ -12,8 +12,11 @@ auto main(int argc, char* argv[]) -> int {
     lex::tokenizer t(src);
     std::vector<lex::token_t> tokens;
     if (!t(tokens)) {
+        //std::wcerr << tokens;
+        std::wcout << L"tokens: " << tokens.size();
         return 1;
     }
 
+    std::wcout << L"tokens: " << tokens.size();
     return 0;
 }

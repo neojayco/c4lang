@@ -10,18 +10,37 @@ namespace lex {
         inline tokenizer(const source_content& src_text) noexcept : source(src_text), i(0), line_idx(1)
         {}
 
-        inline bool operator()(std::vector<token_t>& tokens) noexcept {
+        inline bool operator()(token_stream_t& tokens) noexcept {
             return tokenize_main(tokens);
         }
 
     private:
-        bool tokenize_main(std::vector<token_t>& tokens) noexcept;
+        bool tokenize_main(token_stream_t& tokens) noexcept;
 
-        bool _process_text(std::vector<token_t>& tokens) noexcept;
-        bool _process_singlinecomment(std::vector<token_t>& tokens) noexcept;
+        bool _process_text(token_stream_t& tokens) noexcept;
+        bool _process_singlinecomment(token_stream_t& tokens) noexcept;
+        bool _process_multilinecommentbegin(token_stream_t& tokens) noexcept;
+        bool _process_multilinecommentend(token_stream_t& tokens) noexcept;
+        bool _process_assign(token_stream_t& tokens) noexcept;
+        bool _process_curly_begin(token_stream_t& tokens) noexcept;
+        bool _process_curly_end(token_stream_t& tokens) noexcept;
+        bool _process_less(token_stream_t& tokens) noexcept;
+        bool _process_greater(token_stream_t& tokens) noexcept;
+        bool _process_comma(token_stream_t& tokens) noexcept;
+        bool _process_number_literal(token_stream_t& tokens) noexcept;
+        bool _process_paren_open(token_stream_t& tokens) noexcept;
+        bool _process_paren_close(token_stream_t& tokens) noexcept;
+        bool _process_colon(token_stream_t& tokens) noexcept;
+        bool _process_minus(token_stream_t& tokens) noexcept;
+        bool _process_question(token_stream_t& tokens) noexcept;
+        bool _process_dot(token_stream_t& tokens) noexcept;
 
         inline auto current() const noexcept {
             return current_line().at(i);
+        }
+
+        inline bool is_spaced_line() const noexcept {
+            return current_line().find_first_not_of(L" \t\n\v\f\r") == string32::npos;
         }
 
         inline auto advance() noexcept {
@@ -66,6 +85,26 @@ namespace lex {
                 }
             }
             return true;
+        }
+
+        inline bool is_number_literal_start() const noexcept {
+            return 
+            (current() == L'-' || current() == L'+' || is_number_modifier() || iswdigit(current())) &&
+                is_valid_number_literal_character();
+        }
+
+        inline bool is_number_modifier() const noexcept {
+            return current() == L'x' ||
+                current() == L'X' || current() == L'b' ||
+                current() == L'B';
+        }
+
+        inline bool is_valid_number_literal_character() const noexcept {
+            return is_number_modifier()
+                ||
+                iswdigit(current())
+                ||
+            (!is_buffer_empty() && (peek(1).has_value() && iswdigit(*peek(1))));
         }
 
         symbol_location getLocation(const size_t start) const noexcept;
