@@ -1,8 +1,14 @@
 #include "lex/tokenizer.h"
+#include "pass/post_lex.h"
 
 auto main(int argc, char* argv[]) -> int {
 
-    const auto filename = "../../rtlib/crt.c4";
+    if (argc != 2) {
+        std::wcout << L"usage: ./c4 <filename>" << std::endl;
+        return 1;
+    }
+
+    const auto filename = argv[1];
     lex::source_content src;
     if (!lex::load_file32(src, filename)) {
         std::wcout << L"Failed to load file, not found!\n";
@@ -17,6 +23,9 @@ auto main(int argc, char* argv[]) -> int {
         return 1;
     }
 
-    std::wcout << L"tokens: " << tokens.size();
+    pass::lex::resolve_keywords(tokens);
+
+    std::wcout << L"tokens: " << tokens.size() << std::endl;
+    std::wcout << tokens;
     return 0;
 }

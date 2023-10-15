@@ -1,5 +1,6 @@
 #include "symbol_location.h"
 
+#include <cmath>
 #include <sstream>
 
 constexpr auto MAX_LINE_NUM_DIGITS = 5;

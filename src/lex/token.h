@@ -23,6 +23,30 @@ namespace lex {
         T_MINUS,
         T_QUESTION,
         T_DOT,
+        
+        // token-keywords
+        // primitive types:
+        TK_I1,
+        TK_I8,
+        TK_U8,
+        TK_I16,
+        TK_U16,
+        TK_I32,
+        TK_U32,
+        TK_I64,
+        TK_U64,
+        TK_I128,
+        TK_U128,
+        TK_I256,
+        TK_U256,
+        TK_F32,
+        TK_F64,
+        TK_F128,
+        TK_F256,
+        TK_PTR,
+        TK_CSTR,
+        // real keywords:
+        TK_RETURN,
     };
 
     const string_view32 token_to_string_table[] = {
@@ -44,6 +68,28 @@ namespace lex {
         L"(MINUS)",
         L"(QUESTION)",
         L"(DOT)",
+
+        L"(I1)",
+        L"(I8)",
+        L"(U8)",
+        L"(I16)",
+        L"(U16)",
+        L"(I32)",
+        L"(U32)",
+        L"(I64)",
+        L"(U64)",
+        L"(I128)",
+        L"(U128)",
+        L"(I256)",
+        L"(U256)",
+        L"(F32)",
+        L"(F64)",
+        L"(F128)",
+        L"(F256)",
+        L"(PTR)",
+        L"(CSTR)",
+
+        L"(RETURN)",
     };
 
     struct token_t {

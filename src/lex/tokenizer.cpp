@@ -3,11 +3,7 @@
 
 namespace lex {
 
-    static bool __issafe(const tokenizer* pTok) {
-        return pTok->is_buffer_empty() == false;
-    }
-
-    #define issafe() __issafe(this)
+    #define issafe() ((bool)(this->is_buffer_empty() == false))
 
     static bool isEmoji(int value, int &count)
     {
