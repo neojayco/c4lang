@@ -26,6 +26,5 @@ auto main(int argc, char* argv[]) -> int {
     pass::lex::resolve_keywords(tokens);
 
     std::wcout << L"tokens: " << tokens.size() << std::endl;
-    std::wcout << tokens;
     return 0;
 }
