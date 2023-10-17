@@ -7,8 +7,15 @@ constexpr auto MAX_LINE_NUM_DIGITS = 5;
 
 string32 symbol_location::getFormatText(const size_t symbol_len) const noexcept {
     std::wstringstream ss;
-    
-    const long long numDigits = floor(log10(line.index) + 1);
+    long long numDigits = 0;
+
+    if (line.index == 0) {
+        numDigits = 1;
+    }
+    else {
+        numDigits = floor(log10((line.index + 1)));
+    }
+
     const size_t remainingZeros = std::max(0ll, MAX_LINE_NUM_DIGITS - numDigits);
     for (size_t i = 0; i < remainingZeros; ++i) {
         ss << L' ';
