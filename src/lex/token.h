@@ -1,96 +1,9 @@
 #pragma once
 
 #include "common.h"
+#include "token_type.h"
 
 namespace lex {
-
-    enum token_e {
-        T_IDENTIFIER,
-        T_SLASH,
-        T_SINGLECOMMENT,
-        T_MULTICOMMENT_BEGIN,
-        T_MULTICOMMENT_END,
-        T_ASSIGN,
-        T_CURLY_BEGIN,
-        T_CURLY_END,
-        T_LESS,
-        T_GREATER,
-        T_COMMA,
-        T_NUMBER_LITERAL,
-        T_PAREN_OPEN,
-        T_PAREN_CLOSE,
-        T_COLON,
-        T_MINUS,
-        T_QUESTION,
-        T_DOT,
-        
-        // token-keywords
-        // primitive types:
-        TK_I1,
-        TK_I8,
-        TK_U8,
-        TK_I16,
-        TK_U16,
-        TK_I32,
-        TK_U32,
-        TK_I64,
-        TK_U64,
-        TK_I128,
-        TK_U128,
-        TK_I256,
-        TK_U256,
-        TK_F32,
-        TK_F64,
-        TK_F128,
-        TK_F256,
-        TK_PTR,
-        TK_CSTR,
-        // real keywords:
-        TK_RETURN,
-    };
-
-    const string_view32 token_to_string_table[] = {
-        L"(IDENTIFIER)",
-        L"(SLASH)",
-        L"(SINGLELINECOMMENT)",
-        L"(MULTILINECOMMENTBEGIN)",
-        L"(MULTILINECOMMENTEND)",
-        L"(ASSIGN)",
-        L"(CURLY_BEGIN)",
-        L"(CURLY_END)",
-        L"(LESS)",
-        L"(GREATER)",
-        L"(COMMA)",
-        L"(NUMBER_LITERAL)",
-        L"(PAREN_OPEN)",
-        L"(PAREN_CLOSE)",
-        L"(COLON)",
-        L"(MINUS)",
-        L"(QUESTION)",
-        L"(DOT)",
-
-        L"(I1)",
-        L"(I8)",
-        L"(U8)",
-        L"(I16)",
-        L"(U16)",
-        L"(I32)",
-        L"(U32)",
-        L"(I64)",
-        L"(U64)",
-        L"(I128)",
-        L"(U128)",
-        L"(I256)",
-        L"(U256)",
-        L"(F32)",
-        L"(F64)",
-        L"(F128)",
-        L"(F256)",
-        L"(PTR)",
-        L"(CSTR)",
-
-        L"(RETURN)",
-    };
 
     struct token_t {
         token_e kind = T_IDENTIFIER;
@@ -185,6 +98,22 @@ namespace lex {
 
     inline token_t create_dot(const symbol_location& location) noexcept {
         return create_token(T_DOT, location);
+    }
+
+    inline token_t create_plus(const symbol_location& location) noexcept {
+        return create_token(T_PLUS, location);
+    }
+
+    inline token_t create_percent(const symbol_location& location) noexcept {
+        return create_token(T_PERCENT, location);
+    }
+
+    inline token_t create_star(const symbol_location& location) noexcept {
+        return create_token(T_STAR, location);
+    }
+
+    inline token_t create_bang(const symbol_location& location) noexcept {
+        return create_token(T_BANG, location);
     }
 
 }

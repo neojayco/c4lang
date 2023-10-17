@@ -146,6 +146,26 @@ namespace lex {
                             return false;
                         }
                     }
+                    else if (is(L"!")) {
+                        if (!_process_bang(tokens)) {
+                            return false;
+                        }
+                    }
+                    else if (is(L"%")) {
+                        if (!_process_percent(tokens)) {
+                            return false;
+                        }
+                    }
+                    else if (is(L"*")) {
+                        if (!_process_star(tokens)) {
+                            return false;
+                        }
+                    }
+                    else if (is(L"+")) {
+                        if (!_process_plus(tokens)) {
+                            return false;
+                        }
+                    }
                     else if (is(L"...")) {
                         std::wcerr << L"unimplemented: \n" << getLocation(i).getFormatText(3) << L'\n';
                         return false;
@@ -294,7 +314,7 @@ namespace lex {
         }
 
         // carry about .0 numbers
-        if (current() == '.') {
+        if (current() == '.' && (peek(1) && iswdigit(*peek(1)))) {
             has_dot = true;
             _text.append(L"0.");
             advance();
@@ -376,6 +396,42 @@ namespace lex {
         tokens.push_back(create_dot(getLocation(i)));
 
         // skip '.'
+        advance();
+
+        return true;
+    }
+    
+    bool tokenizer::_process_plus(token_stream_t &tokens) noexcept {
+        tokens.push_back(create_plus(getLocation(i)));
+
+        // skip '+'
+        advance();
+
+        return true;
+    }
+    
+    bool tokenizer::_process_percent(token_stream_t &tokens) noexcept {
+        tokens.push_back(create_percent(getLocation(i)));
+
+        // skip '%'
+        advance();
+
+        return true;
+    }
+    
+    bool tokenizer::_process_star(token_stream_t &tokens) noexcept {
+        tokens.push_back(create_star(getLocation(i)));
+
+        // skip '*'
+        advance();
+
+        return true;
+    }
+    
+    bool tokenizer::_process_bang(token_stream_t &tokens) noexcept {
+        tokens.push_back(create_bang(getLocation(i)));
+
+        // skip '!'
         advance();
 
         return true;

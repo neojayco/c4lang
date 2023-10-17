@@ -7,7 +7,7 @@ namespace lex {
     class tokenizer {
     public:
 
-        inline tokenizer(const source_content& src_text) noexcept : source(src_text), i(0), line_idx(1)
+        inline tokenizer(const source_content& src_text) noexcept : source(src_text), i(0), line_idx(0)
         {}
 
         inline bool operator()(token_stream_t& tokens) noexcept {
@@ -34,13 +34,24 @@ namespace lex {
         bool _process_minus(token_stream_t& tokens) noexcept;
         bool _process_question(token_stream_t& tokens) noexcept;
         bool _process_dot(token_stream_t& tokens) noexcept;
+        bool _process_plus(token_stream_t& tokens) noexcept;
+        bool _process_percent(token_stream_t& tokens) noexcept;
+        bool _process_star(token_stream_t& tokens) noexcept;
+        bool _process_bang(token_stream_t& tokens) noexcept;
 
         inline auto current() const noexcept {
             return current_line().at(i);
         }
 
         inline bool is_spaced_line() const noexcept {
-            return current_line().find_first_not_of(L" \t\n\v\f\r") == string32::npos;
+            const auto& line = current_line();
+            constexpr string_view32 space_letters(L" \n\r\t");
+            for (auto& c : line) {
+                if (space_letters.find_first_of(c) != space_letters.npos) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         inline auto advance() noexcept {
