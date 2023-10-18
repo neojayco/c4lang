@@ -1,33 +1,26 @@
 #pragma once
 
-#include "common.h"
-#include "../symbol_location.h"
+#include "statement.h"
 
 namespace ast {
 
-  class declaration {
+  class declaration : statement {
   public:
-
-    inline declaration(std::initializer_list<symbol_location> symloc, kind_e k) noexcept : kind(k), location(symloc) 
+    inline declaration(std::initializer_list<symbol_location> symloc, kind_e k = k_decl) noexcept : statement(symloc, k)
     {}
 
     virtual ~declaration() = default;
 
-    constexpr kind_e getKind() const noexcept {
-      return kind;
+    inline auto getChildStmt() const noexcept {
+      return children.back();
     }
 
-    inline auto getLocation() const noexcept {
-      return location;
+    inline auto addChildStmt(ptr<statement>&& stmt) noexcept {
+      return children.emplace_back(std::move(stmt));
     }
 
-    inline auto getLocationText() const noexcept {
-      return location.getFormatText();
-    }
-
-  private:
-    kind_e kind = k_decl;
-    semantic_location location;
+  protected:
+    std::vector<ptr<statement>> children = {};
   };
 
 }
