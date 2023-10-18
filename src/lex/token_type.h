@@ -17,7 +17,6 @@ namespace lex {
         T_GREATER,              // >
         T_COMMA,                // ,
         T_NUMBER_LITERAL,       // 0-9
-        T_TYPED_NUMBER_LITERAL, // 0-9[typename]
         T_PAREN_OPEN,           // (
         T_PAREN_CLOSE,          // )
         T_COLON,                // :
@@ -31,6 +30,7 @@ namespace lex {
         
         // token-keywords
         // primitive types:
+        TK_VOID,                            // no type
         TK_I1,                              // boolean-ish
         TK_I8, TK_U8,                       // byte
         TK_I16, TK_U16,                     // word
@@ -68,7 +68,6 @@ namespace lex {
         L"(GREATER)",
         L"(COMMA)",
         L"(NUMBER_LITERAL)",
-        L"(TYPED_NUMBER_LITERAL)",
         L"(PAREN_OPEN)",
         L"(PAREN_CLOSE)",
         L"(COLON)",
@@ -80,6 +79,7 @@ namespace lex {
         L"(STAR)",
         L"(BANG)",
 
+        L"(VOID)",
         L"(I1)",
         L"(I8)",
         L"(U8)",
