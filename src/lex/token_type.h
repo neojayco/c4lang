@@ -5,28 +5,28 @@
 namespace lex {
 
     enum token_e {
-        T_IDENTIFIER,
-        T_SLASH,
-        T_SINGLECOMMENT,
-        T_MULTICOMMENT_BEGIN,
-        T_MULTICOMMENT_END,
-        T_ASSIGN,
-        T_CURLY_BEGIN,
-        T_CURLY_END,
-        T_LESS,
-        T_GREATER,
-        T_COMMA,
-        T_NUMBER_LITERAL,
-        T_PAREN_OPEN,
-        T_PAREN_CLOSE,
-        T_COLON,
-        T_MINUS,
-        T_QUESTION,
-        T_DOT,
-        T_PLUS,
-        T_PERCENT,
-        T_STAR,
-        T_BANG,
+        T_IDENTIFIER,           // a-zA-Z_0-9a-zA-z
+        T_SLASH,                // /
+        T_SINGLECOMMENT,        // //
+        T_MULTICOMMENT_BEGIN,   // /*
+        T_MULTICOMMENT_END,     // */
+        T_ASSIGN,               // =
+        T_CURLY_BEGIN,          // {
+        T_CURLY_END,            // }
+        T_LESS,                 // <
+        T_GREATER,              // >
+        T_COMMA,                // ,
+        T_NUMBER_LITERAL,       // 0-9
+        T_PAREN_OPEN,           // (
+        T_PAREN_CLOSE,          // )
+        T_COLON,                // :
+        T_MINUS,                // -
+        T_QUESTION,             // ?
+        T_DOT,                  // .
+        T_PLUS,                 // +
+        T_PERCENT,              // %
+        T_STAR,                 // *
+        T_BANG,                 // !
         
         // token-keywords
         // primitive types:
@@ -48,6 +48,10 @@ namespace lex {
         TK_MATCH,   // match
         TK_LOOP,    // loop/loop if
         TK_CALL,    // call
+        TK_EQ,      // ==
+        TK_NEQ,     // !=
+
+        __TOKEN_TYPE_LAST
     };
 
     const string_view32 token_to_string_table[] = {
@@ -95,6 +99,16 @@ namespace lex {
         L"(CSTR)",
 
         L"(RETURN)",
+        L"(IF)",
+        L"(ELSE)",
+        L"(ELIF)",
+        L"(MATCH)",
+        L"(LOOP)",
+        L"(CALL)",
+        L"(EQ)",
+        L"(NEQ)",
     };
+
+    static_assert(__TOKEN_TYPE_LAST == std::size(token_to_string_table), "Describe every token type!");
 
 }
