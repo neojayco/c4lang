@@ -45,11 +45,12 @@ namespace ast {
   };
 
   enum kind_e : uint32_t {
-    k_decl,
-    k_named_decl,
+    k_stmt,           // k_stmt - a basic block
+
+    k_decl,           // k_decl - a first declaration statement
+    k_named_decl,     // k_named_decl - a declaration with name
 
     k_expr,           // k_expr - a base for every holy expression.
-    k_math_expr,      // k_math_expr - a math-only expressions since they're can be evaluated at compile-time.
     k_literal_expr,   // k_literal_expr - a known value (e.g: 2, 1.23, etc...)
     k_binary_expr,    // k_binary_expr - a binary expression (a + b, x * y, etc...)
     k_unary_expr,     // k_unary_expr - an unary expression (-a, +b, !c, !!d...)

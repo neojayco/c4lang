@@ -302,6 +302,7 @@ namespace lex {
     
     bool tokenizer::_process_number_literal(token_stream_t &tokens) noexcept {
         
+        // TODO: rework to identify typed number literals
         const auto start = i;
         bool has_dot = false;
         bool has_number_mod = false;

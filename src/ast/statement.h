@@ -24,6 +24,18 @@ namespace ast {
         return location.getFormatText();
         }
 
+
+        inline auto getChildStmt() const noexcept {
+        return children.back();
+        }
+
+        inline auto addChildStmt(ptr<statement>&& stmt) noexcept {
+        return children.emplace_back(std::move(stmt));
+        }
+
+    protected:
+        std::vector<ptr<statement>> children = {};
+
     private:
         kind_e kind = k_decl;
         semantic_location location;

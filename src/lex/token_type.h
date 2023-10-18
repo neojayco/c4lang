@@ -17,6 +17,7 @@ namespace lex {
         T_GREATER,              // >
         T_COMMA,                // ,
         T_NUMBER_LITERAL,       // 0-9
+        T_TYPED_NUMBER_LITERAL, // 0-9[typename]
         T_PAREN_OPEN,           // (
         T_PAREN_CLOSE,          // )
         T_COLON,                // :
@@ -67,6 +68,7 @@ namespace lex {
         L"(GREATER)",
         L"(COMMA)",
         L"(NUMBER_LITERAL)",
+        L"(TYPED_NUMBER_LITERAL)",
         L"(PAREN_OPEN)",
         L"(PAREN_CLOSE)",
         L"(COLON)",
