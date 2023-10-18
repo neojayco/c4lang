@@ -4,33 +4,6 @@
 
 #include "../common.h"
 
-/*
-  fast simple example of code and parts of it:
-  
-  code:
-  
-    name_of_obj = {
-      name_of_fn() i32 = {
-        name_of_var const i32 = 69420
-        return name_of_var
-      }
-    }
-
-  parts:
-
-  name_of_obj, name_of_fn, name_of_var - is a declaration of a statement
-  69420 - is an expression, which is truly a statement... rite?
-  return - is a statement, name_of_var is an expression? which means that expressions is also a statements!
-
-       statement 
-           |
-        /    \ 
-       /      \ 
-      /        \ 
-expression  declaration
-
-*/
-
 namespace ast {
 
   template<class T>
@@ -46,6 +19,7 @@ namespace ast {
 
   enum kind_e : uint32_t {
     k_stmt,           // k_stmt - a basic block
+    k_value_stmt,     // k_value_stmt - a statement that holds some value
 
     k_decl,           // k_decl - a first declaration statement
     k_named_decl,     // k_named_decl - a declaration with name

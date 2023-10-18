@@ -13,24 +13,28 @@ namespace ast {
         virtual ~statement() = default;
 
         constexpr kind_e getKind() const noexcept {
-        return kind;
+            return kind;
+        }
+
+        inline auto isOfKind(const kind_e k) const noexcept {
+            return kind == k;
         }
 
         inline auto getLocation() const noexcept {
-        return location;
+            return location;
         }
 
         inline auto getLocationText() const noexcept {
-        return location.getFormatText();
+            return location.getFormatText();
         }
 
 
         inline auto getChildStmt() const noexcept {
-        return children.back();
+            return children.back();
         }
 
         inline auto addChildStmt(ptr<statement>&& stmt) noexcept {
-        return children.emplace_back(std::move(stmt));
+            return children.emplace_back(std::move(stmt));
         }
 
     protected:
