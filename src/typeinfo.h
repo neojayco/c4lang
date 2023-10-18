@@ -58,8 +58,16 @@ namespace type {
         return true;
     }
 
-    inline bool canConvertUpper(const unsigned t) noexcept {
-        // TODO: make a check for convert i.e: i32 -> i64 or i8 -> i16...
+    inline bool canCastToUpperIntegral(const unsigned t) noexcept {
+        return (t >= T_I1) && (t <= T_U128);
+    }
+
+    inline bool canCastToUpperIEEE754(const unsigned t) noexcept {
+        return (t >= T_F32) && (t <= T_F128);
+    }
+
+    inline bool canCastToUpper(const unsigned t) noexcept {
+        return isIntegral(t) ? canCastToUpperIntegral(t) : canCastToUpperIEEE754(t);
     }
 
 }
