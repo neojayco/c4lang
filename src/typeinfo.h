@@ -58,4 +58,8 @@ namespace type {
         return true;
     }
 
+    inline bool canConvertUpper(const unsigned t) noexcept {
+        // TODO: make a check for convert i.e: i32 -> i64 or i8 -> i16...
+    }
+
 }
