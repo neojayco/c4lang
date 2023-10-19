@@ -5,6 +5,7 @@
 namespace ast {
 
     enum binop_kind : unsigned {
+        bk_none,
         bk_add_assign,  // +=
         bk_sub_assign,  // -=
         bk_mul_assign,  // *=
@@ -26,5 +27,7 @@ namespace ast {
         bk_div,         // /
         bk_mul,         // *
     };
+
+    binop_kind getBinop(unsigned tokenKind) noexcept;
 
 }

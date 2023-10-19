@@ -21,8 +21,8 @@ namespace parser {
         ast::ptr_statement parse_primary() noexcept;
 
         ast::ptr_expression parse_expression() noexcept;
-        ast::ptr_expression parse_term() noexcept;
-        ast::ptr_expression parse_factor() noexcept;
+        ast::ptr_expression parse_primary_expression() noexcept;
+        ast::ptr_expression parse_binary_expression(unsigned prec = 0) noexcept;
 
         inline auto current() const noexcept {
             return stream[idx];
