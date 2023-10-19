@@ -9,7 +9,7 @@ namespace ast {
     public:
 
         template<class T>
-        inline literal_expression(const symbol_location& symloc, T v) noexcept : expression({symloc}, k_literal_expr), value(v)
+        inline literal_expression(const symbol_location& symloc, T v) noexcept : expression(symloc, k_literal_expr), value(v)
         {}
 
         inline auto& getValue() const noexcept {
@@ -19,5 +19,7 @@ namespace ast {
     private:
         literal_value value = {};
     };
+
+    AST_DEFINITION(literal_expression)
 
 }

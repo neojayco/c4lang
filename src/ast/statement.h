@@ -7,7 +7,7 @@ namespace ast {
 
     class statement {
     public:
-        inline statement(std::initializer_list<symbol_location> symloc, kind_e k) noexcept : kind(k), location(symloc) 
+        inline statement(semantic_location loc, kind_e k = k_stmt) noexcept : kind(k), location(loc) 
         {}
 
         virtual ~statement() = default;
@@ -37,6 +37,19 @@ namespace ast {
             return children.emplace_back(std::move(stmt));
         }
 
+        inline auto begin() noexcept {
+            return children.begin();
+        }
+        inline auto begin() const noexcept {
+            return children.begin();
+        }
+        inline auto end() noexcept {
+            return children.end();
+        }
+        inline auto end() const noexcept {
+            return children.end();
+        }
+
     protected:
         std::vector<ptr<statement>> children = {};
 
@@ -44,5 +57,7 @@ namespace ast {
         kind_e kind = k_decl;
         semantic_location location;
     };
+
+    AST_DEFINITION(statement)
 
 }

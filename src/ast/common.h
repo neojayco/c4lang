@@ -9,6 +9,7 @@ namespace ast {
   template<class T>
   class ptr : public std::shared_ptr<T> {
   public:
+    shared_ptr::shared_ptr;
     
     template<class...Args>
     static constexpr ptr<T> make(Args&&...args) noexcept {
@@ -16,6 +17,8 @@ namespace ast {
     }
 
   };
+
+  #define AST_DEFINITION(name) using ptr_##name = ast::ptr<ast::name>;
 
   enum kind_e : uint32_t {
     k_stmt,           // k_stmt - a basic block

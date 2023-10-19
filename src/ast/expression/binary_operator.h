@@ -9,8 +9,8 @@ namespace ast {
     public:
         using opcode = binop_kind;
 
-        inline binary_operation(std::initializer_list<symbol_location> symloc, const ptr<expression>& l, const ptr<expression>& r, opcode _opcode) noexcept 
-            : expression(symloc, k_binary_expr), lhs(std::move(l)), rhs(std::move(r)), op(_opcode)
+        inline binary_operation(const ptr<expression>& l, const ptr<expression>& r, opcode _opcode) noexcept 
+            : expression(semantic_location({l->getLocation(), r->getLocation()}), k_binary_expr), lhs(std::move(l)), rhs(std::move(r)), op(_opcode)
         {}
 
         inline auto getOpcode() const noexcept {
@@ -30,5 +30,7 @@ namespace ast {
         ptr<expression> rhs = {};
         opcode op = {};
     };
+
+    AST_DEFINITION(binary_operation)
 
 }

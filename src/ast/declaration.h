@@ -6,10 +6,12 @@ namespace ast {
 
   class declaration : public statement {
   public:
-    inline declaration(std::initializer_list<symbol_location> symloc, kind_e k = k_decl) noexcept : statement(symloc, k)
+    inline declaration(semantic_location loc, kind_e k = k_decl) noexcept : statement(loc, k)
     {}
 
     virtual ~declaration() = default;
   };
+
+  AST_DEFINITION(declaration)
 
 }

@@ -1,5 +1,6 @@
 #include "lex/tokenizer.h"
 #include "pass/post_lex.h"
+#include "parser/astbuilder.h"
 
 static constexpr auto DEFAULT_TEST_FILEPATH = "../../rtlib/test.c4";
 
@@ -30,5 +31,13 @@ auto main(int argc, char* argv[]) -> int {
 
     std::wcout << L"tokens: " << tokens.size() << std::endl;
     std::wcout << tokens;
+
+    parser::astbuilder astbuilder(tokens);
+    const auto stree = astbuilder();
+    if (!stree) {
+        std::wcerr << L"failed to parse tokens and create syntax tree." << std::endl;
+        return 1;
+    }
+
     return 0;
 }

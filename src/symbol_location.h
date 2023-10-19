@@ -29,6 +29,7 @@ struct semantic_location : symbol_location {
     {}
 
     semantic_location(std::initializer_list<symbol_location> symlocs);
+    semantic_location(const symbol_location& symloc);
 
     string32 getFormatText() const noexcept;
 };

@@ -29,16 +29,16 @@ string32 symbol_location::getFormatText(const size_t symbol_len) const noexcept 
 }
 
 static const size_t _calcLen(std::initializer_list<symbol_location> symlocs) noexcept {
-    size_t len = 0;
-    for (const auto& loc : symlocs) {
-        len += loc.offset - (symlocs.begin()->offset);
-    }
-    return len;
+    return symlocs.end()->offset - symlocs.begin()->offset;
 }
 
 semantic_location::semantic_location(std::initializer_list<symbol_location> symlocs)
     : symbol_location(symlocs.begin()->line.text, symlocs.begin()->line.index, symlocs.begin()->offset), semantic_len(_calcLen(symlocs))
 {}
+
+semantic_location::semantic_location(const symbol_location &symloc) : symbol_location(symloc), semantic_len(1)
+{
+}
 
 string32 semantic_location::getFormatText() const noexcept {
   return symbol_location::getFormatText(semantic_len);
